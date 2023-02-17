@@ -53,11 +53,12 @@ function App(props) {
     });
   }
 
-  function handleUpdateUser() {
+  function handleUpdateUser({ name, about }) {
     api
-      .getUserInfo()
-      .then((res) => {
-        setCurrentUser(res);
+      .updateUserInfo(name, about)
+      .then((updatedUser) => {
+        console.log(`%c[App] User updated!🚀. \n Fresh user: ${JSON.stringify(updatedUser)}`, 'color: cyan;')
+        setCurrentUser(updatedUser);
       })
       .catch((err) => {
         console.log(err);

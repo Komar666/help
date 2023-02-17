@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PopupWithForm from "./PopupWithForm ";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -6,15 +6,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  function nameChange(e) {
-    setName(e.target.value);
-  }
+  const currentUser = useContext(CurrentUserContext);
 
-  function discriptionChange(e) {
-    setDescription(e.target.value);
-  }
+  function nameChange(e) { setName(e.target.value); }
+  function discriptionChange(e) { setDescription(e.target.value); }
 
-  const currentUser = React.useContext(CurrentUserContext);
 
   useEffect(() => {
     setName(currentUser.name);
@@ -24,7 +20,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
-
+    console.log(`%c[EditProfilePopup] catch handleSubmit`, 'color: violet;')
     // Передаём значения управляемых компонентов во внешний обработчик
     onUpdateUser({
       name,
@@ -36,6 +32,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     <PopupWithForm
       isOpen={isOpen}
       onClose={onClose}
+      onSubmit={handleSubmit}
       button="Сохранить"
       title="Редактировать профиль"
       name="profile-edit"
