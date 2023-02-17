@@ -14,7 +14,6 @@ function PopupWithForm(props) {
           method="post"
           className="popup-form form-profile-edit"
           noValidate
-          
         >
           <h2 className="popup-form__title ">{props.title}</h2>
           {props.children}

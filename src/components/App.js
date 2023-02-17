@@ -57,12 +57,20 @@ function App(props) {
     api
       .updateUserInfo(name, about)
       .then((updatedUser) => {
-        console.log(`%c[App] User updated!🚀. \n Fresh user: ${JSON.stringify(updatedUser)}`, 'color: cyan;')
+        console.log(`%c[App] handleUpdateUser: User updated!🚀. \n Fresh user: ${JSON.stringify(updatedUser)}`, 'color: cyan;')
         setCurrentUser(updatedUser);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => { console.log(err); });
+  }
+
+  function handleUpdateAvatar({ avatar }) {
+    api
+      .changeAvatar(avatar)
+      .then((updatedUser) => {
+        console.log(`%c[App] handleUpdateAvatar: User updated!🚀. \n Fresh user: ${JSON.stringify(updatedUser)}`, 'color: cyan;')
+        setCurrentUser(updatedUser);
+      })
+      .catch((err) => { console.log(err); });
   }
 
   function handleEditProfileClick() {
@@ -94,6 +102,8 @@ function App(props) {
       <div className="page">
         <Header />
 
+        <div style={{ color: "red" }}>avatar popup open: {JSON.stringify(isEditAvatarPopupOpen)}</div>
+
         {currentUser && (
           <Main
             onCardClick={setSelectedCard}
@@ -123,6 +133,7 @@ function App(props) {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
           />
         )}
 
