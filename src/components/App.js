@@ -17,33 +17,39 @@ function App(props) {
 
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [state, setCards] = useState(null);
+  // const [state, setCards] = useState(null);
+
+
 
   useEffect(() => {
     api
       .getUserInfo()
       .then((res) => {
         setCurrentUser(res);
+        console.log(`%c[App] User fetched inside useEffect: ${JSON.stringify(res)}`, 'color: cyan;')
       })
       .catch((err) => {
-        console.log(err);
+        console.log(`%c[App] error while fetching user in useEffect: ${JSON.stringify(err)}`, 'color: red;');
       });
+
   }, []);
 
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikes(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+  function handleCardLike(setCards, card) {
+      // Снова проверяем, есть ли уже лайк на этой карточке
+      const isLiked = card.likes.some(i => i._id === currentUser._id);
+      console.log(`%c[App] handleCardLike: card id: ${card._id} isLiked: ${isLiked}`, 'color: violet')
+      // Отправляем запрос в API и получаем обновлённые данные карточки
+      api.changeLikes(card._id, isLiked).then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      });
   }
 
-  function handleCardDelete(card) {
+  function handleCardDelete(setCards, card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikes(card._id, !isLiked).then((newCard) => {
+    api.deleteCard(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }

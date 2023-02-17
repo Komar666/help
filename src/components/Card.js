@@ -2,19 +2,15 @@ import React from "react";
 import buttonTrash from "../images/trash.svg";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick, onConfirm, onCardLike }) {
-  const handleCardClick = () => {
-    onCardClick(card);
-  };
-
-  const handleLikeClick = () => {
-    onCardLike(card);
-  };
+function Card({ card, onCardClick, onConfirm, onCardLike, onCardDelete }) {
+  const handleCardClick = () => { onCardClick(card); };
+  const handleLikeClick = () => { onCardLike(card); };
+  const handleDeleteClick = () => { onCardDelete(card); };
 
   const currentUser = React.useContext(CurrentUserContext);
 
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = card.allId === currentUser._id;
+  const isOwn = card.owner._id === currentUser._id;
   // Далее в разметке используем переменную для условного рендеринга
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
@@ -27,12 +23,13 @@ function Card({ card, onCardClick, onConfirm, onCardLike }) {
 
   return (
     <li className="element">
+      <div>isLiked: {JSON.stringify(isLiked)} isOwn: {JSON.stringify(isOwn)}</div>
       {isOwn && (
         <img
           alt="Удаление"
           className="element__delete"
           src={buttonTrash}
-          onClick={onConfirm}
+          onClick={handleDeleteClick}
         />
       )}
 

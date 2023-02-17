@@ -11,7 +11,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
-    getInitialCards() {
+    async getInitialCards() {
         return fetch(this._baseUrl + '/cards', {
                 headers: {
                     authorization: this._headers.authorization
@@ -23,7 +23,7 @@ class Api {
 
     }
 
-    getUserInfo() {
+    async getUserInfo() {
 
         return fetch(this._baseUrl + '/users/me', {
                 headers: {
@@ -36,7 +36,7 @@ class Api {
 
     }
 
-    updateUserInfo(name, about) {
+    async updateUserInfo(name, about) {
         return fetch(this._baseUrl + '/users/me', {
                 method: 'PATCH',
                 headers: {
@@ -53,7 +53,7 @@ class Api {
             })
     }
 
-    addCard(name, link) {
+    async addCard(name, link) {
         return fetch(this._baseUrl + '/cards', {
                 method: 'POST',
                 headers: {
@@ -70,7 +70,7 @@ class Api {
             })
     }
 
-    deleteCard(cardId) {
+    async deleteCard(cardId) {
         return fetch(this._baseUrl + '/cards/' + cardId, {
                 method: 'DELETE',
                 headers: {
@@ -83,7 +83,7 @@ class Api {
 
     }
 
-    changeLikes(cardId, needDelete = false) {
+    async changeLikes(cardId, needDelete = false) {
         if (needDelete) {
             return fetch(this._baseUrl + '/cards/' + cardId + '/likes', {
                     method: 'DELETE',
@@ -109,7 +109,7 @@ class Api {
         }
     }
 
-    changeAvatar(avatar) {
+    async changeAvatar(avatar) {
         return fetch(this._baseUrl + '/users/me/avatar', {
                 method: 'PATCH',
                 headers: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import buttonProfilePath from "../images/Profile.svg";
 import buttonEditPath from "../images/Edit-Button.svg";
 import buttonAddPath from "../images/Vector.svg";
@@ -9,23 +9,15 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Main(props) {
   const [cards, setCards] = useState([]);
 
-  const currentUser = React.useContext(CurrentUserContext);
-  
+  const currentUser = useContext(CurrentUserContext);
+
   useEffect(() => {
     api
       .getInitialCards()
       .then((cardsResponse) => {
-        const collectedCards = cardsResponse.map((card) => {
-          return {
-            name: card.name,
-            link: card.link,
-            likesNumber: card.likes.length,
-            likes: card.likes,
-            id: card._id,
-            allId: card.owner._id
-          };
-        });
+        const collectedCards = cardsResponse.map((card) => { return card });
         setCards(collectedCards);
+        console.log(`%c[Main] loading user cards, first one is: ${JSON.stringify(collectedCards[0])}`, 'color: cyan;')
       })
       .catch((err) => {
         console.log(err);
@@ -72,21 +64,16 @@ function Main(props) {
           {cards.map((card) => (
 
 
-currentUser && (
-  <Card
-  key={card.id}
-  onConfirm={props.onConfirm}
-  card={card}
-  onCardClick={props.onCardClick}
-  onCardLike={props.onCardLike}
-/>
-)
-
-            
-       
-
-
-          ))}
+          currentUser && (
+              <Card
+              key={card.id}
+              onConfirm={props.onConfirm}
+              card={card}
+              onCardClick={props.onCardClick}
+              onCardLike={(card) => props.onCardLike(setCards, card)}
+            />
+          )
+        ))}
         </ul>
       </section>
     </main>
