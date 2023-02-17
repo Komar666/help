@@ -11,6 +11,7 @@ function handleSubmit(e) {
     // avatar: /* Значение инпута, полученное с помощью рефа */,
     avatar: avatarUrl
   });
+    onClose()
 }
   return (
     <PopupWithForm

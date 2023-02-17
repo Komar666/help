@@ -8,6 +8,7 @@ import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App(props) {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -18,10 +19,12 @@ function App(props) {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   // const [state, setCards] = useState(null);
+  const [cards, setCards] = useState([]);
 
 
 
   useEffect(() => {
+    // LOAD USER INFO
     api
       .getUserInfo()
       .then((res) => {
@@ -32,10 +35,22 @@ function App(props) {
         console.log(`%c[App] error while fetching user in useEffect: ${JSON.stringify(err)}`, 'color: red;');
       });
 
+    // LOAD CARDS
+    api
+      .getInitialCards()
+      .then((cardsResponse) => {
+        const collectedCards = cardsResponse.map((card) => { return card });
+        setCards(collectedCards);
+        console.log(`%c[Main] loading user cards, first one is: ${JSON.stringify(collectedCards[0])}`, 'color: cyan;')
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   }, []);
 
 
-  function handleCardLike(setCards, card) {
+  function handleCardLike(card) {
       // Снова проверяем, есть ли уже лайк на этой карточке
       const isLiked = card.likes.some(i => i._id === currentUser._id);
       console.log(`%c[App] handleCardLike: card id: ${card._id} isLiked: ${isLiked}`, 'color: violet')
@@ -45,7 +60,7 @@ function App(props) {
       });
   }
 
-  function handleCardDelete(setCards, card) {
+  function handleCardDelete(card) {
     const isOwn = card.owner._id === currentUser._id;
     // Отправляем запрос в API и получаем обновлённые данные карточки
     isOwn && api.deleteCard(card._id).then(() => {
@@ -69,6 +84,17 @@ function App(props) {
       .then((updatedUser) => {
         console.log(`%c[App] handleUpdateAvatar: User updated!🚀. \n Fresh user: ${JSON.stringify(updatedUser)}`, 'color: cyan;')
         setCurrentUser(updatedUser);
+      })
+      .catch((err) => { console.log(err); });
+  }
+
+  function handleAddPlace({ name, link }) {
+    api
+      .addCard(name, link)
+      .then((createdPlace) => {
+        console.log(`%c[App] Place was created!📍. \n Created place: ${JSON.stringify(createdPlace)}`, 'color: cyan;')
+        setCards([createdPlace, ...cards])
+        // setCards([...cards, createdPlace])
       })
       .catch((err) => { console.log(err); });
   }
@@ -102,8 +128,6 @@ function App(props) {
       <div className="page">
         <Header />
 
-        <div style={{ color: "red" }}>avatar popup open: {JSON.stringify(isEditAvatarPopupOpen)}</div>
-
         {currentUser && (
           <Main
             onCardClick={setSelectedCard}
@@ -113,6 +137,7 @@ function App(props) {
             onConfirm={handleConfirmationClick}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
+            cards={cards}
           />
         )}
 
@@ -137,38 +162,13 @@ function App(props) {
           />
         )}
 
-        <PopupWithForm
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          button="Создать"
-          title="Новое место"
-          name="add"
-        >
-          <input
-            id="place-input"
-            name="name"
-            className="popup-form__field popup-form__field_type_name"
-            placeholder="Название"
-            value=""
-            onChange={() => {}}
-            type="text"
-            minLength="2"
-            maxLength="30"
-            required
+        {isAddPlacePopupOpen && (
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlace}
           />
-          <span className="place-input-error popup-form__error"></span>
-          <input
-            id="link-input"
-            name="link"
-            className="popup-form__field popup-form__field_type_link"
-            placeholder="Ссылка на картинку"
-            value=""
-            onChange={() => {}}
-            type="url"
-            required
-          />
-          <span className="link-input-error popup-form__error"></span>
-        </PopupWithForm>
+        )}
 
         <PopupWithForm
           isOpen={isConfirmationPopupOpen}

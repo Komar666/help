@@ -23,7 +23,6 @@ function Card({ card, onCardClick, onConfirm, onCardLike, onCardDelete }) {
 
   return (
     <li className="element">
-      <div>isLiked: {JSON.stringify(isLiked)} isOwn: {JSON.stringify(isOwn)}</div>
       {isOwn && (
         <img
           alt="Удаление"

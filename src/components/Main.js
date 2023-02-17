@@ -7,22 +7,9 @@ import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  const [cards, setCards] = useState([]);
+  const { cards } = props
 
   const currentUser = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((cardsResponse) => {
-        const collectedCards = cardsResponse.map((card) => { return card });
-        setCards(collectedCards);
-        console.log(`%c[Main] loading user cards, first one is: ${JSON.stringify(collectedCards[0])}`, 'color: cyan;')
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <main>
@@ -61,19 +48,15 @@ function Main(props) {
       </section>
       <section className="elements">
         <ul className="elements__list">
-          {cards.map((card) => (
-
-
-          currentUser && (
+          {cards.length > 0 && currentUser && cards.map((card) => (
               <Card
-              key={card.id}
-              onConfirm={props.onConfirm}
-              card={card}
-              onCardClick={props.onCardClick}
-              onCardDelete={(card) => props.onCardDelete(setCards, card)}
-              onCardLike={(card) => props.onCardLike(setCards, card)}
+                key={card._id}
+                onConfirm={props.onConfirm}
+                card={card}
+                onCardClick={props.onCardClick}
+                onCardDelete={props.onCardDelete}
+                onCardLike={props.onCardLike}
             />
-          )
         ))}
         </ul>
       </section>
