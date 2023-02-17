@@ -21,6 +21,8 @@ function Card({ card, onCardClick, onConfirm, onCardLike, onCardDelete }) {
     isLiked && "element-like-group__icon-active"
   }`;
 
+  const likesCount = card.likes.length
+
   return (
     <li className="element">
       {isOwn && (
@@ -49,7 +51,7 @@ function Card({ card, onCardClick, onConfirm, onCardLike, onCardDelete }) {
             className={cardLikeButtonClassName}
             onClick={handleLikeClick}
           ></button>
-          <p className="element-like-group__number">{card.likesNumber}</p>
+          <p className="element-like-group__number">{likesCount}</p>
         </div>
       </div>
     </li>
