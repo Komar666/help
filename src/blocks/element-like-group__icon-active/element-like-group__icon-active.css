@@ -1,0 +1,13 @@
+.element-like-group__icon-active {
+    background-color: rgba(255, 0, 0, 0);
+    background-image: url('../../images/Union.svg');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 19px;
+    border: none;
+    cursor: pointer;
+}
+
+.element-like-group__icon-active:hover {
+    opacity: 0.5;
+}

@@ -1,0 +1,8 @@
+.profile-avatar__pencil {
+    margin: auto;
+    width: 26px;
+    height: 26px;
+    opacity: 0;
+    transition: 1s;
+    position: relative;
+}

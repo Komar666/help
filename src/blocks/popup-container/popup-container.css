@@ -1,0 +1,14 @@
+.popup-container {
+    margin: auto;
+    /* margin-top: 155px; */
+    display: flex;
+}
+
+@media (max-width:768px) {
+    .popup-container {
+        width: 282px;
+        /* height: 358px; */
+        /* margin-top: 87px; */
+        /* position: relative; */
+    }
+}

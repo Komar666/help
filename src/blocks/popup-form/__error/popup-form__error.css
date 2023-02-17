@@ -1,0 +1,27 @@
+.popup-form__error {
+    max-width: 358px;
+    height: 12px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF0000;
+    border: none;
+    display: flex;
+    margin: auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 13px;
+}
+
+.popup-form__error:nth-of-type(2n) {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+@media (max-width:768px) {
+    .popup-form__error {
+        width: 238px;
+    }
+}

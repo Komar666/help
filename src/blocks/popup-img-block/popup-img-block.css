@@ -1,0 +1,14 @@
+.popup-img-block {
+    max-width: max-content;
+    height: auto;
+    border: 1px solid rgba(255, 0, 0, 0);
+    position: relative;
+    margin: auto;
+    display: flex;
+}
+
+@media (max-width:320px) {
+    .popup-img-block {
+        width: 240px;
+    }
+}

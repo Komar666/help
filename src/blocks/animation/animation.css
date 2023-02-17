@@ -1,0 +1,18 @@
+@keyframes animation {
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.animation {
+    animation-name: animation;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+}

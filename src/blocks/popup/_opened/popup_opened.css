@@ -1,0 +1,17 @@
+@keyframes modal {
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.popup_opened {
+    animation-name: modal;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
