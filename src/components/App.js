@@ -46,11 +46,10 @@ function App(props) {
   }
 
   function handleCardDelete(setCards, card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    const isOwn = card.owner._id === currentUser._id;
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.deleteCard(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    isOwn && api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((v) => (v._id !== card._id )));
     });
   }
 
@@ -102,6 +101,7 @@ function App(props) {
             onEditAvatar={handleEditAvatarClick}
             onConfirm={handleConfirmationClick}
             onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
         )}
 

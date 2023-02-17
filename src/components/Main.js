@@ -70,6 +70,7 @@ function Main(props) {
               onConfirm={props.onConfirm}
               card={card}
               onCardClick={props.onCardClick}
+              onCardDelete={(card) => props.onCardDelete(setCards, card)}
               onCardLike={(card) => props.onCardLike(setCards, card)}
             />
           )
